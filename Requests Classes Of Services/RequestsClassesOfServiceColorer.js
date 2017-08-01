@@ -27,7 +27,7 @@ tau.mashups
                 this.hourLimits = [0, 1, 18, 24]; //[0, 1, 18, 24] by default
                 this.leftInQueueNormalDayLimit = 1;
                 this.leftInQueueWarningDayLimit = 3;
-                this.colors = ['#d8ffa0', '', '#fffdb0', '#ffb090']; //['#d8ffa0', '', '#fffdb0', '#ffb090'] by default
+                this.colors = ['#d8ffa0', '', '#fffdb0', '#ff5060']; //['#d8ffa0', '', '#fffdb0', '#ffb090'] by default
                 this.grayColor = '#e4e4e4'; //'#e4e4e4' by default
 
                 context.onChange(function(ctx) {
@@ -55,7 +55,7 @@ tau.mashups
                     return;
                 }
                 var acid = ctx.acid;
-                var searchCriteria = '';
+                var searchCriteria = '(project.id!=50149)';
                 if (this.includeInitialStateOnly) {
                     searchCriteria = searchCriteria + (searchCriteria ? ' and ' : '') + 'EntityState.isInitial==true';
                 }
@@ -122,7 +122,7 @@ tau.mashups
                         resultColor = this.colors[i];
                     }
                 }
-                return (resultColor ? 'background: ' + resultColor : '');
+                return (resultColor ? 'background: ' + resultColor : null);
             };
 
             this.getHoursDiff = function(createdDate, lastCommentDate) {
@@ -178,7 +178,10 @@ tau.mashups
                 var lastCommentDate = this.lastCommentDates[id];
                 var lastCommentUserKind = this.lastCommentUserKinds[id];
                 var isReplied = this.isReplied[id];
-                card.attr('style', this._getColor(id, createdDate, lastCommentDate, lastCommentUserKind, isReplied));
+                var cardColor = this._getColor(id, createdDate, lastCommentDate, lastCommentUserKind, isReplied);
+                if (cardColor) {
+                    card.attr('style', cardColor);
+                }
             };
 
             this.renderAll = function() {
